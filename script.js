@@ -3,7 +3,7 @@ const list = document.querySelector('.book-list');
 const popUp = document.querySelector('dialog');
 const submit = document.querySelector('.submit')
 
-const myLibrary = ['The Stand', 'Chainsaw Man'];
+const myLibrary = [];
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -11,7 +11,8 @@ function Book(title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.info = function() {
-      return title  + ' by ' + author + ', ' + pages + ', ' + read;
+    const readStatus = (read.toLowerCase() === 'y') ? 'read' : 'not read yet';
+    return `${title} by ${author}, ${pages} pages, ${readStatus}`;
   }
 }
 
@@ -19,7 +20,7 @@ function Book(title, author, pages, read) {
 function addBookToLibrary(array) {
   for (const book of array) {
     const listItem = document.createElement('ul');
-    listItem.textContent = book;
+    listItem.textContent = book.info();
     list.appendChild(listItem);
   }
 }
@@ -34,10 +35,20 @@ submit.addEventListener('click', updateLibrary);
 function updateLibrary(event) {
   console.log("Form submitted.");
   event.preventDefault();
+  popUp.close();
+
+  // user form input values
+  const title = document.querySelector('#title').value;
+  const author = document.querySelector('#author').value;
+  const pages = document.querySelector('#pages').value;
+  const read = document.querySelector('#read').value;
+
+  // create a new Book object
+  const formResponse = new Book(title, author, pages, read);
+  
+  myLibrary.push(formResponse);
+  addBookToLibrary(myLibrary);
 }
-
-
-
 
 addBookToLibrary(myLibrary);
 
