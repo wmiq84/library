@@ -10,12 +10,15 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
+  this.info = function() {
+    const readStatus = (this.read.toLowerCase() === 'y') ? 'read' : 'not read yet';
+    return `${this.title} by ${this.author}, ${this.pages} pages, ${readStatus}`;
+  }
 }
-
-Book.prototype.info = function() {
-  const readStatus = (this.read.toLowerCase() === 'y') ? 'read' : 'not read yet';
-  return `${this.title} by ${this.author}, ${this.pages} pages, ${readStatus}`;
-}
+// Book.prototype.info = function() {
+//   const readStatus = (this.read.toLowerCase() === 'y') ? 'read' : 'not read yet';
+//   return `${this.title} by ${this.author}, ${this.pages} pages, ${readStatus}`;
+// }
 
 function addBookToLibrary(array) {
   for (const book of array) {
@@ -53,6 +56,11 @@ function updateLibrary(event) {
   const formResponse = new Book(title, author, pages, read);
   
   myLibrary.push(formResponse);
+
+  while (list.children.length > 1) {
+    list.removeChild(list.children[1]);
+  };
+
   addBookToLibrary(myLibrary);
 }
 
@@ -60,4 +68,4 @@ addBookToLibrary(myLibrary);
 
 const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'not read yet')
 
-console.log(theHobbit.info())
+console.log(theHobbit.info());  
