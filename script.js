@@ -10,20 +10,26 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
-  this.info = function() {
-    const readStatus = (read.toLowerCase() === 'y') ? 'read' : 'not read yet';
-    return `${title} by ${author}, ${pages} pages, ${readStatus}`;
-  }
 }
 
+Book.prototype.info = function() {
+  const readStatus = (this.read.toLowerCase() === 'y') ? 'read' : 'not read yet';
+  return `${this.title} by ${this.author}, ${this.pages} pages, ${readStatus}`;
+}
 
 function addBookToLibrary(array) {
   for (const book of array) {
     const listItem = document.createElement('ul');
+    const deleteButton = document.createElement('button');
+
     listItem.textContent = book.info();
+    deleteButton.textContent = "Delete";
+
     list.appendChild(listItem);
+    list.appendChild(deleteButton);
   }
 }
+
 
 newBook.addEventListener('click', () => {
   console.log("New book added.");
