@@ -5,6 +5,8 @@ const submit = document.querySelector('.submit')
 
 const myLibrary = [];
 
+var index = -1;
+
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
@@ -21,23 +23,36 @@ function Book(title, author, pages, read) {
 // }
 
 function addBookToLibrary(array) {
-  for (const book of array) {
-    const listItem = document.createElement('ul');
+  // Clear the list before adding new items
+  
+
+  array.forEach((book, index) => {
+    const listItem = document.createElement('li'); 
     const deleteButton = document.createElement('button');
 
     listItem.textContent = book.info();
+    listItem.setAttribute('data-index', index);
     deleteButton.textContent = "Delete";
+    deleteButton.setAttribute('data-index', index); 
 
-    list.appendChild(listItem);
-    list.appendChild(deleteButton);
-  }
+    listItem.appendChild(deleteButton); 
+    list.appendChild(listItem); 
+
+    console.log(listItem.getAttribute('data-index'));
+    console.log(deleteButton.getAttribute('data-index'));
+
+    deleteButton.addEventListener('click', () => {
+      list.removeChild(listItem);
+    });
+  });
 }
-
 
 newBook.addEventListener('click', () => {
   console.log("New book added.");
   popUp.showModal();
 });
+
+
 
 submit.addEventListener('click', updateLibrary); 
 
