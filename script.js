@@ -28,8 +28,11 @@ Book.prototype.toggleRead = function() {
 function addBookToLibrary(array) {
   // Clear the list before adding new items
   
+  while (list.children.length > 1) {
+    list.removeChild(list.children[1]);
+  };
 
-  array.forEach((book) => {
+  array.forEach((book, index) => {
     const listItem = document.createElement('li'); 
     const deleteButton = document.createElement('button');
     const toggleRead = document.createElement('button');
@@ -44,7 +47,8 @@ function addBookToLibrary(array) {
 
 
     deleteButton.addEventListener('click', () => {
-      list.removeChild(listItem);
+      myLibrary.splice(index, 1);
+      addBookToLibrary(myLibrary);
     });
 
     toggleRead.addEventListener('click', ()=>{
@@ -81,9 +85,6 @@ function updateLibrary(event) {
   
   myLibrary.push(formResponse);
 
-  while (list.children.length > 1) {
-    list.removeChild(list.children[1]);
-  };
 
   addBookToLibrary(myLibrary);
 }
