@@ -5,7 +5,6 @@ const submit = document.querySelector('.submit')
 
 const myLibrary = [];
 
-var index = -1;
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -17,6 +16,10 @@ function Book(title, author, pages, read) {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${readStatus}`;
   }
 }
+
+Book.prototype.toggleRead = function() {
+  this.read = (this.read.toLowerCase() === 'y') ? 'n' : 'y';
+}
 // Book.prototype.info = function() {
 //   const readStatus = (this.read.toLowerCase() === 'y') ? 'read' : 'not read yet';
 //   return `${this.title} by ${this.author}, ${this.pages} pages, ${readStatus}`;
@@ -26,23 +29,29 @@ function addBookToLibrary(array) {
   // Clear the list before adding new items
   
 
-  array.forEach((book, index) => {
+  array.forEach((book) => {
     const listItem = document.createElement('li'); 
     const deleteButton = document.createElement('button');
+    const toggleRead = document.createElement('button');
 
     listItem.textContent = book.info();
-    listItem.setAttribute('data-index', index);
     deleteButton.textContent = "Delete";
-    deleteButton.setAttribute('data-index', index); 
+    toggleRead.textContent = "Change read status";
 
     listItem.appendChild(deleteButton); 
+    listItem.appendChild(toggleRead);
     list.appendChild(listItem); 
 
-    console.log(listItem.getAttribute('data-index'));
-    console.log(deleteButton.getAttribute('data-index'));
 
     deleteButton.addEventListener('click', () => {
       list.removeChild(listItem);
+    });
+
+    toggleRead.addEventListener('click', ()=>{
+      book.toggleRead();
+      listItem.textContent = book.info();
+      listItem.appendChild(deleteButton); 
+      listItem.appendChild(toggleRead);
     });
   });
 }
